@@ -53,3 +53,42 @@ python3 get-pip.py --user
 만약 설치되어 있지 않다면 pip install page  의 가이드 대로 인스톨을 진행하거나 최신 버전의 Python으로 설치를 권장한다.
 
 
+eksctl 이란 EKS 클러스터를 쉽게 생성 및 관리하는 CLI 툴입니다. Go 언어로 쓰여 있으며 CloudFormation 형태로 배포됩니다.
+
+아래의 명령어를 통해, 최신의 eksctl 바이너리를 다운로드 합니다.
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+
+바이너리를 /usr/local/bin으로 옮깁니다.
+
+sudo mv -v /tmp/eksctl /usr/local/bin
+
+아래의 명령어를 통해 설치 여부를 확인합니다.
+
+eksctl version
+
+현재 실습이 진행되고 있는 리전을 기본 값으로 하도록 aws cli를 설정합니다.
+export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+
+echo "export AWS_REGION=${AWS_REGION}" | tee -a ~/.bash_profile
+    
+aws configure set default.region ${AWS_REGION}
+
+설정한 리전 값을 확인합니다.
+
+aws configure get default.region
+
+현재 실습을 진행하는 계정 ID를 환경 변수로 등록합니다.
+export ACCOUNT_ID=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.accountId')
+
+echo "export ACCOUNT_ID=${ACCOUNT_ID}" | tee -a ~/.bash_profile
+
+
+aws_secret_access_key = bDEBuEJMcheNljCtV7HKLbe6vte0A01C8o2/HNpE
+export ACCOUNT_ID = 911781391110
+export AWS_REGION = ap-northeast-2
+aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+
+
+git clone https://github.com/joozero/amazon-eks-flask.git
