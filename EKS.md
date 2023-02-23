@@ -1,25 +1,30 @@
-kubectl 설치하기
-kubectl은 쿠버네티스 클러스터에 명령을 내리는 CLI입니다.
+리눅스에서 curl을 사용하여 kubectl 바이너리 설치
+다음 명령으로 최신 릴리스를 다운로드한다.
 
-쿠버네티스는 오브젝트 생성, 수정 혹은 삭제와 관련한 동작을 수행하기 위해 쿠버네티스 API를 사용합니다. 이때, kubectl CLI를 사용하면 해당 명령어가 쿠버네티스 API를 호출해 관련 동작을 수행합니다.
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+참고:
+특정 버전을 다운로드하려면, $(curl -L -s https://dl.k8s.io/release/stable.txt) 명령 부분을 특정 버전으로 바꾼다.
 
-여기 를 클릭하여 배포할 Amazon EKS 버전과 상응하는 kubectl를 설치합니다. 본 실습에서는 가장 최신의 kubectl 바이너리를 설치합니다(2021년 9월 기준 1.21).
+예를 들어, 리눅스에서 버전 v1.26.0을 다운로드하려면, 다음을 입력한다.
 
-sudo curl -o /usr/local/bin/kubectl  \
-   https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/linux/amd64/kubectl
+curl -LO https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl
 
-sudo chmod +x /usr/local/bin/kubectl
+kubectl: OK
 
-아래의 명령어를 통해, 최신의 kubectl이 설치되었는지 확인합니다.
+kubectl 설치
 
-kubectl version --client=true --short=true
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+참고:
+대상 시스템에 root 접근 권한을 가지고 있지 않더라도, ~/.local/bin 디렉터리에 kubectl을 설치할 수 있다.
 
-# 출력되는 결과 값
-Client Version: v1.23.13-eks-fb459a0
-Previous
-Next
+chmod +x kubectl
+mkdir -p ~/.local/bin
+mv ./kubectl ~/.local/bin/kubectl
+# 그리고 ~/.local/bin 을 $PATH의 앞부분 또는 뒷부분에 추가
 
-그 외의 다른 툴들 설치하기
+kubectl version --client
+
+
 jq 설치하기
 jq는 JSON 형식의 데이터를 다루는 커맨드라인 유틸리티입니다. 아래의 명령어를 통해, jq를 설치합니다.
 
@@ -52,4 +57,8 @@ python3 get-pip.py --user
 
 만약 설치되어 있지 않다면 pip install page  의 가이드 대로 인스톨을 진행하거나 최신 버전의 Python으로 설치를 권장한다.
 
+## eks ctl
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+
+sudo mv /tmp/eksctl /usr/local/bin
 
