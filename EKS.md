@@ -1,103 +1,67 @@
-¸®´ª½º¿¡¼­ curlÀ» »ç¿ëÇÏ¿© kubectl ¹ÙÀÌ³Ê¸® ¼³Ä¡
-´ÙÀ½ ¸í·ÉÀ¸·Î ÃÖ½Å ¸±¸®½º¸¦ ´Ù¿î·ÎµåÇÑ´Ù.
+ë¦¬ëˆ…ìŠ¤ì—ì„œ curlì„ ì‚¬ìš©í•˜ì—¬ kubectl ë°”ì´ë„ˆë¦¬ ì„¤ì¹˜
+ë‹¤ìŒ ëª…ë ¹ìœ¼ë¡œ ìµœì‹  ë¦´ë¦¬ìŠ¤ë¥¼ ë‹¤ìš´ë¡œë“œí•œë‹¤.
 
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-Âü°í:
-Æ¯Á¤ ¹öÀüÀ» ´Ù¿î·ÎµåÇÏ·Á¸é, $(curl -L -s https://dl.k8s.io/release/stable.txt) ¸í·É ºÎºÐÀ» Æ¯Á¤ ¹öÀüÀ¸·Î ¹Ù²Û´Ù.
+ì°¸ê³ :
+íŠ¹ì • ë²„ì „ì„ ë‹¤ìš´ë¡œë“œí•˜ë ¤ë©´, $(curl -L -s https://dl.k8s.io/release/stable.txt) ëª…ë ¹ ë¶€ë¶„ì„ íŠ¹ì • ë²„ì „ìœ¼ë¡œ ë°”ê¾¼ë‹¤.
 
-¿¹¸¦ µé¾î, ¸®´ª½º¿¡¼­ ¹öÀü v1.26.0À» ´Ù¿î·ÎµåÇÏ·Á¸é, ´ÙÀ½À» ÀÔ·ÂÇÑ´Ù.
+ì˜ˆë¥¼ ë“¤ì–´, ë¦¬ëˆ…ìŠ¤ì—ì„œ ë²„ì „ v1.26.0ì„ ë‹¤ìš´ë¡œë“œí•˜ë ¤ë©´, ë‹¤ìŒì„ ìž…ë ¥í•œë‹¤.
 
 curl -LO https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl
 
 kubectl: OK
 
-kubectl ¼³Ä¡
+kubectl ì„¤ì¹˜
 
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-Âü°í:
-´ë»ó ½Ã½ºÅÛ¿¡ root Á¢±Ù ±ÇÇÑÀ» °¡Áö°í ÀÖÁö ¾Ê´õ¶óµµ, ~/.local/bin µð·ºÅÍ¸®¿¡ kubectlÀ» ¼³Ä¡ÇÒ ¼ö ÀÖ´Ù.
+ì°¸ê³ :
+ëŒ€ìƒ ì‹œìŠ¤í…œì— root ì ‘ê·¼ ê¶Œí•œì„ ê°€ì§€ê³  ìžˆì§€ ì•Šë”ë¼ë„, ~/.local/bin ë””ë ‰í„°ë¦¬ì— kubectlì„ ì„¤ì¹˜í•  ìˆ˜ ìžˆë‹¤.
 
 chmod +x kubectl
 mkdir -p ~/.local/bin
 mv ./kubectl ~/.local/bin/kubectl
-# ±×¸®°í ~/.local/bin À» $PATHÀÇ ¾ÕºÎºÐ ¶Ç´Â µÞºÎºÐ¿¡ Ãß°¡
+# ê·¸ë¦¬ê³  ~/.local/bin ì„ $PATHì˜ ì•žë¶€ë¶„ ë˜ëŠ” ë’·ë¶€ë¶„ì— ì¶”ê°€
 
 kubectl version --client
 
 
-jq ¼³Ä¡ÇÏ±â
-jq´Â JSON Çü½ÄÀÇ µ¥ÀÌÅÍ¸¦ ´Ù·ç´Â Ä¿¸Çµå¶óÀÎ À¯Æ¿¸®Æ¼ÀÔ´Ï´Ù. ¾Æ·¡ÀÇ ¸í·É¾î¸¦ ÅëÇØ, jq¸¦ ¼³Ä¡ÇÕ´Ï´Ù.
+jq ì„¤ì¹˜í•˜ê¸°
+jqëŠ” JSON í˜•ì‹ì˜ ë°ì´í„°ë¥¼ ë‹¤ë£¨ëŠ” ì»¤ë§¨ë“œë¼ì¸ ìœ í‹¸ë¦¬í‹°ìž…ë‹ˆë‹¤. ì•„ëž˜ì˜ ëª…ë ¹ì–´ë¥¼ í†µí•´, jqë¥¼ ì„¤ì¹˜í•©ë‹ˆë‹¤.
 
 sudo yum install -y jq
 
-bash-completion ¼³Ä¡ÇÏ±â
-Bash ½©¿¡¼­ kubectl completion script´Â kubectl completion bash ¸í·É¾î¸¦ ÅëÇØ »ý¼ºÇÒ ¼ö ÀÖ½À´Ï´Ù. ½©¿¡ completion script¸¦ ¼Ò½ÌÇÏ¸é kubectl ¸í·É¾îÀÇ ÀÚµ¿ ¿Ï¼ºÀ» °¡´ÉÇÏ°Ô ¸¸µé ¼ö ÀÖ½À´Ï´Ù. ÇÏÁö¸¸ ÀÌ·± completion script´Â bash-completion¿¡ ÀÇÁ¸ÇÏ±â ¶§¹®¿¡ ¾Æ·¡ÀÇ ¸í·É¾î¸¦ ÅëÇØ, bash-completion À» ¼³Ä¡ÇØ¾ß ÇÕ´Ï´Ù.
+bash-completion ì„¤ì¹˜í•˜ê¸°
+Bash ì‰˜ì—ì„œ kubectl completion scriptëŠ” kubectl completion bash ëª…ë ¹ì–´ë¥¼ í†µí•´ ìƒì„±í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì‰˜ì— completion scriptë¥¼ ì†Œì‹±í•˜ë©´ kubectl ëª…ë ¹ì–´ì˜ ìžë™ ì™„ì„±ì„ ê°€ëŠ¥í•˜ê²Œ ë§Œë“¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. í•˜ì§€ë§Œ ì´ëŸ° completion scriptëŠ” bash-completionì— ì˜ì¡´í•˜ê¸° ë•Œë¬¸ì— ì•„ëž˜ì˜ ëª…ë ¹ì–´ë¥¼ í†µí•´, bash-completion ì„ ì„¤ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤.
 
 sudo yum install -y bash-completion
 
 Install Git
-Git Downloader  ¸µÅ©¸¦ Å¬¸¯ÇÏ¿© ±êÀ» ¼³Ä¡ÇÑ´Ù.
+Git Downloader  ë§í¬ë¥¼ í´ë¦­í•˜ì—¬ ê¹ƒì„ ì„¤ì¹˜í•œë‹¤.
 
-Python ¼³Ä¡ÇÏ±â
-CDK for PythonÀ» ÀÌ¿ëÇÏ±â ‹š¹®¿¡ python À» ¼³Ä¡ÇÑ´Ù. Cloud9 È¯°æ¿¡´Â ±âº»ÀûÀ¸·Î PythonÀÌ ¼³Ä¡µÇ¾î ÀÖ´Ù. Python Installer  ¸µÅ©¿¡¼­ ÀûÀýÇÑ ÆÐÅ°Áö¸¦ ¼±ÅÃÇÏ¿© ´Ù¿î·Îµå ¹× ¼³Ä¡¸¦ ÁøÇàÇÑ´Ù.
+Python ì„¤ì¹˜í•˜ê¸°
+CDK for Pythonì„ ì´ìš©í•˜ê¸° ë–„ë¬¸ì— python ì„ ì„¤ì¹˜í•œë‹¤. Cloud9 í™˜ê²½ì—ëŠ” ê¸°ë³¸ì ìœ¼ë¡œ Pythonì´ ì„¤ì¹˜ë˜ì–´ ìžˆë‹¤. Python Installer  ë§í¬ì—ì„œ ì ì ˆí•œ íŒ¨í‚¤ì§€ë¥¼ ì„ íƒí•˜ì—¬ ë‹¤ìš´ë¡œë“œ ë° ì„¤ì¹˜ë¥¼ ì§„í–‰í•œë‹¤.
 
 python --version
 python3 --version
 
-PIP È®ÀÎ
-PythonÀÇ ÆÐÅ°ÁöµéÀ» ¼³Ä¡ÇÏ°í °ü¸®ÇÏ´Â ¸Å´ÏÀúÀÎ PIP¼³Ä¡ ¿©ºÎ¸¦ È®ÀÎÇÑ´Ù. ÀÏÁ¤ ¹öÀü ÀÌ»óÀÇ Python¿¡ ±âº»ÀûÀ¸·Î ¼³Ä¡µÇ¾î ÀÖ´Ù.
+PIP í™•ì¸
+Pythonì˜ íŒ¨í‚¤ì§€ë“¤ì„ ì„¤ì¹˜í•˜ê³  ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì €ì¸ PIPì„¤ì¹˜ ì—¬ë¶€ë¥¼ í™•ì¸í•œë‹¤. ì¼ì • ë²„ì „ ì´ìƒì˜ Pythonì— ê¸°ë³¸ì ìœ¼ë¡œ ì„¤ì¹˜ë˜ì–´ ìžˆë‹¤.
 
 pip
 pip3
 
-CodeCommitÀ» ÀÌ¿ëÇÏ±â À§ÇØ 9.0.3 ¹öÀü ÀÌ»óÀÇ pip°¡ ÇÊ¿äÇÏ±â ‹š¹®¿¡ ¾Æ·¡ÀÇ ¸í·ÉÀ» ¼öÇàÇÏ¿© pip¸¦ ¾÷µ¥ÀÌÆ® ÁøÇàÇÑ´Ù.
+CodeCommitì„ ì´ìš©í•˜ê¸° ìœ„í•´ 9.0.3 ë²„ì „ ì´ìƒì˜ pipê°€ í•„ìš”í•˜ê¸° ë–„ë¬¸ì— ì•„ëž˜ì˜ ëª…ë ¹ì„ ìˆ˜í–‰í•˜ì—¬ pipë¥¼ ì—…ë°ì´íŠ¸ ì§„í–‰í•œë‹¤.
 
 curl -O https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py --user
 
-¸¸¾à ¼³Ä¡µÇ¾î ÀÖÁö ¾Ê´Ù¸é pip install page  ÀÇ °¡ÀÌµå ´ë·Î ÀÎ½ºÅçÀ» ÁøÇàÇÏ°Å³ª ÃÖ½Å ¹öÀüÀÇ PythonÀ¸·Î ¼³Ä¡¸¦ ±ÇÀåÇÑ´Ù.
+ë§Œì•½ ì„¤ì¹˜ë˜ì–´ ìžˆì§€ ì•Šë‹¤ë©´ pip install page  ì˜ ê°€ì´ë“œ ëŒ€ë¡œ ì¸ìŠ¤í†¨ì„ ì§„í–‰í•˜ê±°ë‚˜ ìµœì‹  ë²„ì „ì˜ Pythonìœ¼ë¡œ ì„¤ì¹˜ë¥¼ ê¶Œìž¥í•œë‹¤.
 
 ## eks ctl
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 
 sudo mv /tmp/eksctl /usr/local/bin
 
-eksctl ÀÌ¶õ EKS Å¬·¯½ºÅÍ¸¦ ½±°Ô »ý¼º ¹× °ü¸®ÇÏ´Â CLI ÅøÀÔ´Ï´Ù. Go ¾ð¾î·Î ¾²¿© ÀÖÀ¸¸ç CloudFormation ÇüÅÂ·Î ¹èÆ÷µË´Ï´Ù.
 
-¾Æ·¡ÀÇ ¸í·É¾î¸¦ ÅëÇØ, ÃÖ½ÅÀÇ eksctl ¹ÙÀÌ³Ê¸®¸¦ ´Ù¿î·Îµå ÇÕ´Ï´Ù.
-
-curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-
-¹ÙÀÌ³Ê¸®¸¦ /usr/local/binÀ¸·Î ¿Å±é´Ï´Ù.
-
-sudo mv -v /tmp/eksctl /usr/local/bin
-
-¾Æ·¡ÀÇ ¸í·É¾î¸¦ ÅëÇØ ¼³Ä¡ ¿©ºÎ¸¦ È®ÀÎÇÕ´Ï´Ù.
-
-eksctl version
-
-ÇöÀç ½Ç½ÀÀÌ ÁøÇàµÇ°í ÀÖ´Â ¸®ÀüÀ» ±âº» °ªÀ¸·Î ÇÏµµ·Ï aws cli¸¦ ¼³Á¤ÇÕ´Ï´Ù.
-export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
-
-echo "export AWS_REGION=${AWS_REGION}" | tee -a ~/.bash_profile
-    
-aws configure set default.region ${AWS_REGION}
-
-¼³Á¤ÇÑ ¸®Àü °ªÀ» È®ÀÎÇÕ´Ï´Ù.
-
-aws configure get default.region
-
-ÇöÀç ½Ç½ÀÀ» ÁøÇàÇÏ´Â °èÁ¤ ID¸¦ È¯°æ º¯¼ö·Î µî·ÏÇÕ´Ï´Ù.
-export ACCOUNT_ID=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.accountId')
-
-echo "export ACCOUNT_ID=${ACCOUNT_ID}" | tee -a ~/.bash_profile
-
-
-aws_secret_access_key = bDEBuEJMcheNljCtV7HKLbe6vte0A01C8o2/HNpE
-export ACCOUNT_ID = 911781391110
-export AWS_REGION = ap-northeast-2
-aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-
-
-
-git clone https://github.com/joozero/amazon-eks-flask.git
+mkdir -p ~/.zsh/completion/
+eksctl completion zsh > ~/.zsh/completion/_eksctl

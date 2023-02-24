@@ -5,7 +5,7 @@ export REGION_CODE=911781391110
 eksctl create iamidentitymapping \
     --cluster dorian \
     --region ap-northeast-2 \
-    --arn arn:aws:sts::911781391110:assumed-role/devops-role/botocore-session-1677054722 \
+    --arn arn:aws:iam::911781391110:user/dorian.kim@themedium.io \
     --group system:masters \
     --no-duplicate-arns \
     --username dorian
