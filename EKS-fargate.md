@@ -8,6 +8,13 @@ eksctl create cluster --name kstadium --region ap-northeast-2 \
 --vpc-public-subnets <PUBLIC_SUBNETS> --fargate
 ```
 
+```
+export role=arn:aws:iam::911781391110:role/myAmazonEKSClusterRole
+export subnets=subnet-0001fc5fe00d2deec,subnet-0c87a767cbf73557b
+export sg=eks-default
+aws eks create-cluster --name gndchain --role-arn $role --resources-vpc-config subnetIds=$subnets,securityGroupIds=$sg
+```
+
 <aside>
 💡 console에서 생성 했다가 cli로 생성 하면 나중에 cli로 접속 시 access deny 로 고생 할 수도 있다. 가능하면 cli 환경에서 일관적으로 작업을 하도록 하자
 </aside>
