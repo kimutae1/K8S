@@ -92,10 +92,12 @@ vpc-resource-controller-rolebinding                    ClusterRole/vpc-resource-
 ❯ eksctl get iamidentitymapping --cluster kstadium --region=ap-northeast-2
 ARN                                                                                             USERNAME                        GROUPS                                                  ACCOUNT
 arn:aws:iam::911781391110:role/eksctl-kstadium-cluster-FargatePodExecutionRole-1B74XW375US33    system:node:{{SessionName}}     system:bootstrappers,system:nodes,system:node-proxier
-░▒▓    ~ ▓▒░                                                                      
 
 
  eksctl get iamidentitymapping --cluster kstadium --region=ap-northeast-2
 ARN                                                                                             USERNAME                        GROUPS                                                  ACCOUNT
 arn:aws:iam::911781391110:role/eksctl-kstadium-cluster-FargatePodExecutionRole-1B74XW375US33    system:node:{{SessionName}}     system:bootstrappers,system:nodes,system:node-proxier
 arn:aws:iam::911781391110:user/dorian.kim@themedium.io   
+
+
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
