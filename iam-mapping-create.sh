@@ -1,6 +1,7 @@
 export REGION=ap-northeast-2
 export REGION_CODE=911781391110
 #export CLUSTER-NAME= dorian
+export CLUSTER= dorian
 
 eksctl create iamidentitymapping \
     --cluster kstadium \
