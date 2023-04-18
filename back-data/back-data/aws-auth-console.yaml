@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::911781391110:role/eksctl-kstadium-cluster-ServiceRole-A8GQEXWHRBZY
+      username: system:node:{{SessionName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+        - system:master

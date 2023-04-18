@@ -92,3 +92,7 @@ eksctl create iamidentitymapping \
     --cluster your_cluster_Name --region=your_region 
     --arn YOUR_IAM_ARN <arn:aws:iam::123456:role testing=""> 
     --group system:masters --username admin</arn:aws:iam::123456:role>
+
+
+
+aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId

@@ -1,0 +1,1 @@
+eksctl utils associate-iam-oidc-provider --cluster $cluster_name --approve
