@@ -1,22 +1,31 @@
  #!/bin/bash
-export vpc=kstadium
+
+vpc="kstadium"
+cluster_name=alb7
+
+#export pri_pub=private
+export pub_subnet_a_id="subnet-0515674ed4dc1772a"
+export pub_subnet_c_id="subnet-0b89688a3a1ff4a93"
+export pri_subnet_a_id="subnet-0bc60172da6da0e5e"
+export pri_subnet_c_id="subnet-0d3309db6f0ad0260"
+export role=arn:aws:iam::911781391110:role/devops-role
+export vpccidr="10.10.0.0/16"
 
 cat <<EOF > export.sh
-export cluster_name=alb4
-#export vpc=kstadium
+export cluster_name=$cluster_name
+export region_code=ap-northeast-2
 #ARN / Account / UserId
-export $(aws sts get-caller-identity |jq  -r '.|to_entries|.[]|[.key, .value]|join("=")')
-#vpc=kstadium
-#export vpc_name=$(aws ec2 describe-vpcs  | jq -r '.Vpcs[].Tags[].Value' | grep ${vpc})
-vpc_name=$(aws ec2 describe-vpcs  | jq -r '.Vpcs[].Tags[].Value' | grep $vpc)
-#export vpc_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=${vpc_name} | jq -r '.Vpcs[].VpcId')
-#
-echo $vpc_name
-echo $vpc_ID
-
+export $(aws sts get-caller-identity |jq  -r '.|to_entries|.[]|[.key, .value]|join("=")' |paste -sd " ")
+export vpc_name=$(aws ec2 describe-vpcs  | jq -r '.Vpcs[].Tags[].Value' | grep ${vpc}) ;
+sleep 2
+export vpc_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=${vpc_name} | jq -r '.Vpcs[].VpcId')
 EOF
+
+#env |grep AWS
 #sleep 1 ;
-sh $PWD/export.sh
+#chmod 755 $PWD/export.sh
+source ${PWD}/export.sh
+
 
 ##Subnet ID, CIDR, Subnet Name export
 #aws ec2 describe-subnets --filter Name=vpc-id,Values=$vpc_ID | jq -r '.Subnets[]|.SubnetId+" "+.CidrBlock+" "+(.Tags[]|select(.Key=="Name").Value)'

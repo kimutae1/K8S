@@ -1,13 +1,13 @@
 #!/bin/bash
 # EKS 클러스터 이름
-#cluster_name="${cluster-name}"
 # AWS 계정 ID
-#aws_account_id=
 
 # 보안 그룹 ID 가져오기
 #security_group_id=$(aws eks describe-cluster --name $cluster_name --query 'cluster.resourcesVpcConfig.clusterSecurityGroupId' --output text)
 
 # configmap.yaml 파일 생성
+
+#export ${Account}
 cat <<EOF > configmap.yaml
 
 apiVersion: v1
@@ -22,8 +22,7 @@ data:
         - system:nodes
         - system:masters
        username: system:node:{{SessionName}}
-       rolearn: arn:aws:iam::$Account}:role/devops-role
-       #rolearn: arn:aws:iam::911781391110:role/devops-role
+       rolearn: arn:aws:iam::${Account}:role/devops-role
 
     - groups:
        - system:bootstrappers
@@ -34,9 +33,9 @@ data:
       rolearn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
 
 
-EOF```
+EOF
 
-kubectl apply -f config_map_apply.yaml
+kubectl apply -f configmap.yaml
 
   #mapUsers: |
   #  - rolearn: arn:aws:iam::911781391110:user/AWSReservedSSO_crypted_devops_1c74128b3bb9822e/dorian.kim@crypted.co.kr

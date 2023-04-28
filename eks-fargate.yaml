@@ -1,7 +1,7 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
- name: alb4
+ name: alb7
  region: ap-northeast-2
 
 vpc:
@@ -9,10 +9,15 @@ vpc:
   cidr: 10.10.0.0/16
   subnets:
     private:
-      ap-northeast-2a:
+      a:
          id: subnet-0bc60172da6da0e5e
-      ap-northeast-2c:
+      c:
          id: subnet-0d3309db6f0ad0260
+    public:
+      a:
+         id: subnet-0515674ed4dc1772a
+      c:
+         id: subnet-0b89688a3a1ff4a93
 
 fargateProfiles:
   - name: fp-default

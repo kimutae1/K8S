@@ -1,0 +1,24 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles:  |
+    -  groups:
+        - system:bootstrappers
+        - system:nodes
+        - system:masters
+       username: system:node:{{SessionName}}
+       rolearn: arn:aws:iam::911781391110:role/devops-role
+
+    - groups:
+       - system:bootstrappers
+       - system:nodes
+       - system:node-proxier
+       - system:masters
+      username: system:node:{{SessionName}}
+      rolearn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+
+
