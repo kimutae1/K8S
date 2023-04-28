@@ -1,7 +1,24 @@
  #!/bin/bash
+export vpc="kstadium"
+export cluster_name=alb7
 
-vpc="kstadium"
-cluster_name=alb7
+export region_code=$(aws configure list |grep region |awk '{print $2}')
+
+export vpc_name=$(aws ec2 describe-vpcs  | jq -r '.Vpcs[].Tags[].Value' | grep ${vpc}) ;
+export $(aws ec2 describe-vpcs --filters Name=tag:Name,Values=${vpc_name} | \
+ jq -r '.Vpcs[]|{CidrBlock, VpcId}|to_entries|.[]|[.key, .value]|join("=")' |paste -sd " ")
+#아래 두개는 위에 스크립트로 대체됨
+#export vpccidr="10.10.0.0/16"
+#export vpc_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=${vpc_name} | jq -r '.Vpcs[].VpcId')
+
+export $(aws sts get-caller-identity |jq  -r '.|to_entries|.[]|[.key, .value]|join("=")' |paste -sd " ")
+#subnet의 값을 aws-cli로 가져와서 변수에 저장,jq 활용 code 이다
+#aws ec2 descrebe-subnets --filter Name=vpc-id,Values=$vpc_ID | jq -r '.Subnets[]|.SubnetId+" "+.CidrBlock+" "+(.Tags[]|select(.Key=="Name").Value)'
+#이 중 kstadium이 포함된 subnet만 특정 하고 싶다면
+
+#ksta 문자열이 포함된 내역 중 .Tags만 가져오기
+#aws ec2 describe-subnets --filter Name=vpc-id,Values=$VpcId | jq -r '.Subnets|.[]| select(.Tags[]|.Value | contains("ksta"))|.Tags'
+
 
 #export pri_pub=private
 export pub_subnet_a_id="subnet-0515674ed4dc1772a"
@@ -9,22 +26,23 @@ export pub_subnet_c_id="subnet-0b89688a3a1ff4a93"
 export pri_subnet_a_id="subnet-0bc60172da6da0e5e"
 export pri_subnet_c_id="subnet-0d3309db6f0ad0260"
 export role=arn:aws:iam::911781391110:role/devops-role
-export vpccidr="10.10.0.0/16"
 
-cat <<EOF > export.sh
-export cluster_name=$cluster_name
-export region_code=ap-northeast-2
 #ARN / Account / UserId
-export $(aws sts get-caller-identity |jq  -r '.|to_entries|.[]|[.key, .value]|join("=")' |paste -sd " ")
-export vpc_name=$(aws ec2 describe-vpcs  | jq -r '.Vpcs[].Tags[].Value' | grep ${vpc}) ;
-sleep 2
-export vpc_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=${vpc_name} | jq -r '.Vpcs[].VpcId')
-EOF
+
+#cat <<EOF > export.sh
+#export cluster_name=$cluster_name
+#export region_code=ap-northeast-2
+##ARN / Account / UserId
+#export $(aws sts get-caller-identity |jq  -r '.|to_entries|.[]|[.key, .value]|join("=")' |paste -sd " ")
+#export vpc_name=$(aws ec2 describe-vpcs  | jq -r '.Vpcs[].Tags[].Value' | grep ${vpc}) ;
+#sleep 2
+#export vpc_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=${vpc_name} | jq -r '.Vpcs[].VpcId')
+#EOF
 
 #env |grep AWS
 #sleep 1 ;
 #chmod 755 $PWD/export.sh
-source ${PWD}/export.sh
+#source ${PWD}/export.sh
 
 
 ##Subnet ID, CIDR, Subnet Name export
