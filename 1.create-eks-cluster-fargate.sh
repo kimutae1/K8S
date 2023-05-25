@@ -1,6 +1,6 @@
-echo $cluster_name ; echo $role
+#!/bin/bash
 
-#rm -rf eks-fargate.yaml
+# Fargate 기반 Cluster를 생성하는 YAML 파일 작성
 cat <<EOF > eks-fargate.yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -9,19 +9,19 @@ metadata:
  region: ${region_code}
 
 vpc:
-  id: ${vpc_ID}
-  cidr: ${vpccidr}
+  id: ${VpcId}
+  cidr: ${CidrBlock}
   subnets:
     private:
-      ${region}a:
-         id: ${pri_subnet_a_id}
-      ${region}c:
-         id: ${pri_subnet_c_id}
+      `aws ec2 describe-subnets --subnet-ids $private_a |jq -r '.Subnets[].AvailabilityZone'`:
+         id: ${private_a}
+      `aws ec2 describe-subnets --subnet-ids $private_c |jq -r '.Subnets[].AvailabilityZone'`:
+         id: ${private_c}
     public:
-      ${region}a:
-         id: ${pub_subnet_a_id}
-      ${region}c:
-         id: ${pub_subnet_c_id}
+      `aws ec2 describe-subnets --subnet-ids $public_a |jq -r '.Subnets[].AvailabilityZone'`:
+         id: ${public_a}
+      `aws ec2 describe-subnets --subnet-ids $public_c |jq -r '.Subnets[].AvailabilityZone'`:
+         id: ${public_c}
 
 fargateProfiles:
   - name: fp-default
@@ -29,31 +29,13 @@ fargateProfiles:
       - namespace: default
       - namespace: kube-system
     subnets:
-      - ${pri_subnet_a_id}
-      - ${pri_subnet_c_id}
+      - ${private_a}
+      - ${private_c}
 
 iam:
   serviceRoleARN: $role
-
 EOF
 
 cat eks-fargate.yaml
 
 eksctl create cluster -f eks-fargate.yaml  
-#eksctl create cluster -f eks-fargate.yaml  --fargate
-#eksctl create cluster -f eks-fargate.yaml --name $cluster --vpc-private-subnets $subnets
-
-
-#aws eks create-cluster \
-#--name $cluster  \
-#--kubernetes-version 1.25 \
-#--role-arn  $role \ 
-#--resources-vpc-config subnetIds=$subnets \
-#--role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR 
-#--resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629
-#eksctl --profile dev create cluster --name $cluster --vpc-private-subnets $subnets --without-nodegroup --falgate
-
-#--region ap-northeast-2  
-
-#eksctl create iamserviceaccount --name my-service-account --namespace default --cluster my-cluster --role-name "my-role" \
-#    --attach-policy-arn arn:aws:iam::111122223333:policy/my-policy --approve

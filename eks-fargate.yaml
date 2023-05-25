@@ -1,7 +1,7 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
- name: alb7
+ name: lucas
  region: ap-northeast-2
 
 vpc:
@@ -9,14 +9,14 @@ vpc:
   cidr: 10.10.0.0/16
   subnets:
     private:
-      a:
+      ap-northeast-2a:
          id: subnet-0bc60172da6da0e5e
-      c:
+      ap-northeast-2c:
          id: subnet-0d3309db6f0ad0260
     public:
-      a:
+      ap-northeast-2a:
          id: subnet-0515674ed4dc1772a
-      c:
+      ap-northeast-2c:
          id: subnet-0b89688a3a1ff4a93
 
 fargateProfiles:
@@ -29,5 +29,5 @@ fargateProfiles:
       - subnet-0d3309db6f0ad0260
 
 iam:
-  serviceRoleARN: arn:aws:iam::911781391110:role/devops-role
+  serviceRoleARN: 
 

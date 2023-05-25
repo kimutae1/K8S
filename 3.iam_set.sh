@@ -16,9 +16,9 @@ eksctl create iamserviceaccount \
 
 
 ###subnet tag add
-for x in ${pub_subnet_a_id} ${pub_subnet_c_id} ${pri_subnet_a_id} ${pri_subnet_c_id} ; do aws ec2 create-tags --resources $x --tags Key=kubernetes.io/cluster/$cluster_name,Value=owned ; done
-for x in ${pub_subnet_a_id} ${pub_subnet_c_id}  ; do aws ec2 create-tags --resources $x --tags Key=kubernetes.io/role/elb,Value=1 ; done
-for x in ${pri_subnet_a_id} ${pri_subnet_c_id}  ; do aws ec2 create-tags --resources $x --tags Key=kubernetes.io/role/internal-elb,Value=1 ; done
+for x in ${public_a} ${public_c} ${private_a} ${private_c} ; do aws ec2 create-tags --resources $x --tags Key=kubernetes.io/cluster/$cluster_name,Value=owned ; done
+for x in ${public_a} ${public_c}  ; do aws ec2 create-tags --resources $x --tags Key=kubernetes.io/role/elb,Value=1 ; done
+for x in ${private_a} ${private_c}  ; do aws ec2 create-tags --resources $x --tags Key=kubernetes.io/role/internal-elb,Value=1 ; done
 
 
   ###
@@ -26,14 +26,14 @@ for x in ${pri_subnet_a_id} ${pri_subnet_c_id}  ; do aws ec2 create-tags --resou
 
   ###helm
   helm repo add eks https://aws.github.io/eks-charts
-  kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+  kubectl apply -k "github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller//crds?ref=master"
 
 ###alb install
   helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
     --set clusterName=$cluster_name \
     --set serviceAccount.create=false \
     --set region=$region_code \
-    --set vpcId=$vpc_ID \
+    --set vpcId=$VpcId \
     --set serviceAccount.name=aws-load-balancer-controller \
     --set subnets.public.enabled=true \
     -n kube-system
