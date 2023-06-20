@@ -1,0 +1,21 @@
+controller:
+  replicas: 2
+server:
+  replicas: 2
+  service:
+    annotations: {}
+    labels: {}
+    type: NodePort
+    #type: ClusterIP
+    nodePortHttp: 30080
+    nodePortHttps: 30443
+    servicePortHttp: 80
+    servicePortHttps: 443
+    servicePortHttpName: http
+    servicePortHttpsName: https
+    namedTargetPort: true
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalIPs: []
+    externalTrafficPolicy: ""
+    sessionAffinity: ""

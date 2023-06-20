@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  namespace: managed
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: eks-tls
+          mountPath: "/etc/tls"
+          readOnly: true
+      volumes:
+      - name: eks-tls
+        secret:
+          secretName: eks-tls

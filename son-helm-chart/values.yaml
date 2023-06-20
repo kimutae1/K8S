@@ -1,0 +1,30 @@
+name: "hellohelm"
+namespace: "node-add"
+replicas: 2
+label: node-add-app
+image: "nginx:latest"
+service:
+ port: "9880"
+serviceAccount:
+  create: false
+  name:  aws-load-balancer-controller
+#  my-service-account
+
+ingress:
+  className: alb
+  enabled: true 
+  namespace : node-add
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+  hosts:
+#    - host: example.com
+      - paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            serviceName: 11-service
+            servicePort: 18080
+autoscaling:
+  enabled: false
