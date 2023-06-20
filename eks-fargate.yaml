@@ -5,8 +5,8 @@ metadata:
  region: ap-northeast-2
 
 vpc:
-  id: 
-  cidr: 
+  id: vpc-09a6049b96e74bf58
+  cidr: 10.10.0.0/16
   subnets:
     private:
       ap-northeast-2a:
