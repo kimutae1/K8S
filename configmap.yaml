@@ -10,7 +10,7 @@ data:
         - system:nodes
         - system:masters
        username: system:node:{{SessionName}}
-       rolearn: arn:aws:iam::911781391110:role/devops-role
+       rolearn: arn:aws:iam:::role/devops-role
 
     - groups:
        - system:bootstrappers
