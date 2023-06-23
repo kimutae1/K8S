@@ -10,7 +10,10 @@ export az_code="an2"
 export service_zone="kstadium"
 
 # Cluster Name
-export cluster_name=lucas
+export cluster_name=lucas-test
+
+# eks-role = cluster create / node-add
+export node_role=eksFullAccessRole
 
 # Region Code
 export region_code=$(aws configure list |grep region |awk '{print $2}')
@@ -31,4 +34,5 @@ jq -r '.Subnets[] | {SubnetId: .SubnetId, Name: (.Tags[] | select(.Key=="Name" a
 and (.Value | contains("ecs") | not )).Value | gsub("-"; "_"))} | [.Name, .SubnetId] | join("=")' | cut -d "_" -f 5,6`
 
 # IAM Role Arn
-export role=$(aws iam get-role --role-name eksFullAccessRole | jq -r '.Role.Arn')
+export role=$(aws iam get-role --role-name devops-role | jq -r '.Role.Arn')
+#export role=$(aws iam get-role --role-name eksFullAccessRole | jq -r '.Role.Arn')

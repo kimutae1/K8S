@@ -1,1 +1,1 @@
-eksctl utils write-kubeconfig --cluster=my-cluster
+eksctl utils write-kubeconfig --cluster=lucas-test
