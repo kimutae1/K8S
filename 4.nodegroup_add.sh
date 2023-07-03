@@ -4,8 +4,11 @@ apiVersion: eksctl.io/v1alpha5
 metadata:
     name: ${cluster_name}
     region: ${region_code}
+    annotations:
+      cert-manager.io/cluster-issuer: "my-issuer"
+
 managedNodeGroups:
-  - name: nodegroup-devopsrole-prisub # 클러스터의 노드 그룹명
+  - name: nodegroup-devopsrole-certm1 # 클러스터의 노드 그룹명
     instanceType: m5.large # 클러스터 워커 노드의 인스턴스 타입
     desiredCapacity: 1 # 클러스터 워커 노드의 갯수
     volumeSize: 30  # 클러스터 워커 노드의 EBS 용량 (단위: GiB)
@@ -13,8 +16,8 @@ managedNodeGroups:
     subnets: 
         - ${private_c} 
         - ${private_a}
-    ssh:
-      enableSsm: true
+#    ssh:
+#      enableSsm: true
     iam:
       #  withAddonPolicies:
       #    imageBuilder: true # Amazon ECR에 대한 권한 추가

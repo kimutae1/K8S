@@ -2,22 +2,17 @@
 
 # Environment
 export env="dev"
-
 # Available Zone Code
 export az_code="an2"
-
 # Service_zone
 export service_zone="kstadium"
-
 # Cluster Name
 export cluster_name=lucas-test
-
 # eks-role = cluster create / node-add
-export node_role=eksFullAccessRole
-
+export node_role=devops-role
+#export node_role=eksFullAccessRole
 # Region Code
 export region_code=$(aws configure list |grep region |awk '{print $2}')
-
 # VPC Name
 export vpc_name=$(aws ec2 describe-vpcs  | jq -r '.Vpcs[].Tags[].Value' | grep ${service_zone}) ;
 
