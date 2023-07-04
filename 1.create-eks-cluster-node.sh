@@ -6,6 +6,24 @@ metadata:
  name: ${cluster_name}
  region: ${region_code}
 
+iamIdentityMappings:
+  - arn: $role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+
+  - arn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
 iam:
   serviceRoleARN: $role
   withOIDC: true

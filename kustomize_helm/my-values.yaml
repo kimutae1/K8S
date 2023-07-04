@@ -2,10 +2,14 @@ controller:
   replicas: 2
 server:
   replicas: 2
+  ingress: enable
+   annotations:
+      kubernetes.io/ingress.class: nginx
   service:
     annotations: {}
     labels: {}
-    type: NodePort
+    #type: ingress
+    #type: NodePort
     #type: ClusterIP
     nodePortHttp: 30080
     nodePortHttps: 30443

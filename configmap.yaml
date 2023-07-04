@@ -9,9 +9,8 @@ data:
         - system:bootstrappers
         - system:nodes
         - system:masters
-       username: system:node:{{SessionName}}
-       rolearn: arn:aws:iam::911781391110:role/devops-role
-
+       username: system:node:{{EC2PrivateDNSName}}
+       rolearn: arn:aws:iam::911781391110:role/eksFullAccessRole
     - groups:
        - system:bootstrappers
        - system:nodes

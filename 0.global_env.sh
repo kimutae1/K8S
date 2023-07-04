@@ -6,7 +6,7 @@ export az_code="an2"
 # Service_zone
 export service_zone="kstadium"
 # Cluster Name
-export cluster_name=kstadium-service
+export cluster_name=dev-kstadium-managed-role
 # eks-role = cluster create / node-add
 export role=$(aws iam get-role --role-name eksFullAccessRole | jq -r '.Role.Arn')
 #export node_role=devops-role

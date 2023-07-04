@@ -13,10 +13,14 @@ controller:
   replicas: 2
 server:
   replicas: 2
+  ingress: enable
+   annotations:
+      kubernetes.io/ingress.class: nginx
   service:
     annotations: {}
     labels: {}
-    type: NodePort
+    #type: ingress
+    #type: NodePort
     #type: ClusterIP
     nodePortHttp: 30080
     nodePortHttps: 30443
@@ -55,11 +59,11 @@ cat << EOF > my-secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: my-argocd-secret
+  name: namespace-secret
 type: Opaque
 stringData:
-  id: someid
-  password: somepassword
+  id: kstadium
+  password: devops
 EOF
 
 ## kustomization.yaml 파일에 my-secret.yaml 리소스를 추가한다.
@@ -69,7 +73,7 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     version: 3.26.5
     releaseName: my-argocd
-    namespace: my-argocd
+    namespace: managed
     valuesFile: my-values.yaml 
     includeCRDs: true
 
@@ -78,3 +82,6 @@ resources:
 EOF
 
 kustomize build . --enable-helm > temp.yaml
+
+kubectl create namespace managed
+kubectl apply -f temp.yaml -n managed

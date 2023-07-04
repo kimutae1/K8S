@@ -1,1 +1,1 @@
-eksctl utils write-kubeconfig --cluster=kstadium-service
+eksctl utils write-kubeconfig --cluster=kstadium-managed
