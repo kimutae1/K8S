@@ -24,6 +24,15 @@ iamIdentityMappings:
     username: system:node:{{EC2PrivateDNSName}}
     noDuplicateARNs: true # prevents shadowing of ARNs
 
+
+  - arn: arn:aws:iam::911781391110:role/devops-role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
 iam:
   serviceRoleARN: $role
   withOIDC: true

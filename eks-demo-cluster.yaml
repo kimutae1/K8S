@@ -5,6 +5,24 @@ metadata:
  name: dev-kstadium-managed
  region: ap-northeast-2
 
+iamIdentityMappings:
+  - arn: arn:aws:iam::911781391110:role/eksFullAccessRole
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+
+  - arn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
 iam:
   serviceRoleARN: arn:aws:iam::911781391110:role/eksFullAccessRole
   withOIDC: true
