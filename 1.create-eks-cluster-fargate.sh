@@ -24,7 +24,7 @@ vpc:
          id: ${public_c}
 
 fargateProfiles:
-  - name: fp-default
+  - name: fp-kstadium-in
     selectors:
       - namespace: default
       - namespace: kube-system
@@ -32,8 +32,16 @@ fargateProfiles:
       - ${private_a}
       - ${private_c}
 
+  - name: fp-kstadium-ex
+    selectors:
+      - namespace: default
+      - namespace: kube-system
+    subnets:
+      - ${public_a}
+      - ${public_c}
+
 iam:
-  serviceRoleARN: $role
+  serviceRoleARN: $cluster_role
 EOF
 
 cat eks-fargate.yaml

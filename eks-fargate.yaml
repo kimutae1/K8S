@@ -1,7 +1,7 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
- name: lucas
+ name: kstadium-service
  region: ap-northeast-2
 
 vpc:
@@ -20,13 +20,21 @@ vpc:
          id: subnet-0b89688a3a1ff4a93
 
 fargateProfiles:
-  - name: fp-default
+  - name: fp-kstadium-in
     selectors:
       - namespace: default
       - namespace: kube-system
     subnets:
       - subnet-0bc60172da6da0e5e
       - subnet-0d3309db6f0ad0260
+
+  - name: fp-kstadium-ex
+    selectors:
+      - namespace: default
+      - namespace: kube-system
+    subnets:
+      - subnet-0515674ed4dc1772a
+      - subnet-0b89688a3a1ff4a93
 
 iam:
   serviceRoleARN: 

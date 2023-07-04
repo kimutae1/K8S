@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Environment
 export env="dev"
 # Available Zone Code
@@ -7,10 +6,10 @@ export az_code="an2"
 # Service_zone
 export service_zone="kstadium"
 # Cluster Name
-export cluster_name=lucas-test
+export cluster_name=kstadium-service
 # eks-role = cluster create / node-add
-export node_role=devops-role
-#export node_role=eksFullAccessRole
+export role=$(aws iam get-role --role-name eksFullAccessRole | jq -r '.Role.Arn')
+#export node_role=devops-role
 # Region Code
 export region_code=$(aws configure list |grep region |awk '{print $2}')
 # VPC Name
@@ -28,6 +27,3 @@ export `aws ec2 describe-subnets --filters "Name=tag:Name,Values=*sbn-${env}-${a
 jq -r '.Subnets[] | {SubnetId: .SubnetId, Name: (.Tags[] | select(.Key=="Name" and (.Value | contains("data") | not) \
 and (.Value | contains("ecs") | not )).Value | gsub("-"; "_"))} | [.Name, .SubnetId] | join("=")' | cut -d "_" -f 5,6`
 
-# IAM Role Arn
-export role=$(aws iam get-role --role-name devops-role | jq -r '.Role.Arn')
-#export role=$(aws iam get-role --role-name eksFullAccessRole | jq -r '.Role.Arn')
