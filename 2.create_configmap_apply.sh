@@ -14,14 +14,14 @@ data:
         - system:nodes
         - system:masters
        username: system:node:{{EC2PrivateDNSName}}
-       rolearn: $role
+       rolearn: $eks_role
     - groups:
        - system:bootstrappers
        - system:nodes
        - system:node-proxier
        - system:masters
       username: system:node:{{SessionName}}
-      rolearn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+      rolearn: $sso_role
 EOF
 
 kubectl apply -f configmap.yaml

@@ -7,7 +7,7 @@ metadata:
  region: ${region_code}
 
 iamIdentityMappings:
-  - arn: $role
+  - arn: $eks_role
     groups:
       - system:masters
       - system:bootstrappers
@@ -16,25 +16,19 @@ iamIdentityMappings:
     noDuplicateARNs: true # prevents shadowing of ARNs
 
 
-  - arn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+  - arn: $sso_role
     groups:
       - system:masters
       - system:bootstrappers
+      - system:node-proxier
       - system:nodes
-    username: system:node:{{EC2PrivateDNSName}}
+    username: system:node:{{SessionName}}
     noDuplicateARNs: true # prevents shadowing of ARNs
 
 
-  - arn: arn:aws:iam::911781391110:role/devops-role
-    groups:
-      - system:masters
-      - system:bootstrappers
-      - system:nodes
-    username: system:node:{{EC2PrivateDNSName}}
-    noDuplicateARNs: true # prevents shadowing of ARNs
 
 iam:
-  serviceRoleARN: $role
+  serviceRoleARN: $eks_role
   withOIDC: true
 
 vpc:
@@ -67,7 +61,7 @@ managedNodeGroups:
       #    cloudWatch: true # cloudWatch에 대한 권한 추가
       #    autoScaler: true # auto scaling에 대한 권한 추가
       #    ebs: true # EBS CSI Driver에 대한 권한 추가
-      instanceRoleARN: $role
+      instanceRoleARN: $eks_role
 
 cloudWatch:
   clusterLogging:

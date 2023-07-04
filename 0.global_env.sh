@@ -6,10 +6,14 @@ export az_code="an2"
 # Service_zone
 export service_zone="kstadium"
 # Cluster Name
-export cluster_name=dev-kstadium-managed
+export cluster_name=dev-kstadium-gndchain
 # eks-role = cluster create / node-add
-export role=$(aws iam get-role --role-name eksFullAccessRole | jq -r '.Role.Arn')
+export eks_role=$(aws iam get-role --role-name eksFullAccessRole | jq -r '.Role.Arn')
 #export node_role=devops-role
+export devops_role=$(aws iam get-role --role-name devops-role | jq -r '.Role.Arn')
+# sso-role = ConfigMap
+export sso_role=$(aws iam list-roles --query 'Roles[?contains(RoleName, `AWSReservedSSO_crypted_devops`)]' | jq -r '.[0].Arn' | sed 's/\aws-reserved\/sso\.amazonaws\.com\///')
+
 # Region Code
 export region_code=$(aws configure list |grep region |awk '{print $2}')
 # VPC Name

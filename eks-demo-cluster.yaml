@@ -2,7 +2,7 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
- name: dev-kstadium-managed
+ name: dev-kstadium-gndchain
  region: ap-northeast-2
 
 iamIdentityMappings:
@@ -15,13 +15,16 @@ iamIdentityMappings:
     noDuplicateARNs: true # prevents shadowing of ARNs
 
 
-  - arn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+  - arn: arn:aws:iam::911781391110:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
     groups:
       - system:masters
       - system:bootstrappers
+      - system:node-proxier
       - system:nodes
-    username: system:node:{{EC2PrivateDNSName}}
+    username: system:node:{{SessionName}}
     noDuplicateARNs: true # prevents shadowing of ARNs
+
+
 
 iam:
   serviceRoleARN: arn:aws:iam::911781391110:role/eksFullAccessRole
