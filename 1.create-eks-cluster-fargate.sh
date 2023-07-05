@@ -41,7 +41,7 @@ fargateProfiles:
       - ${public_c}
 
 iam:
-  serviceRoleARN: $cluster_role
+  serviceRoleARN: $eks_role
 EOF
 
 cat eks-fargate.yaml
