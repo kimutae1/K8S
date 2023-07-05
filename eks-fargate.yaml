@@ -1,7 +1,7 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
- name: kstadium-managed
+ name: dev-kstadium-service
  region: ap-northeast-2
 
 vpc:
@@ -37,4 +37,4 @@ fargateProfiles:
       - subnet-0b89688a3a1ff4a93
 
 iam:
-  serviceRoleARN: 
+  serviceRoleARN: arn:aws:iam::911781391110:role/eksFullAccessRole

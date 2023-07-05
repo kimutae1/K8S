@@ -27,7 +27,7 @@ eksctl get iamserviceaccount --cluster $cluster_name --name aws-load-balancer-co
 helm repo add eks https://aws.github.io/eks-charts
 
 ### eks-charts라는 Helm 저장소의 해당 경로에 위치한 CRDs를 가져와서 Kubernetes 클러스터에 적용
-kubectl apply -k "github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller//crds?ref=master"
+kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
 
 ### Helm을 사용하여 aws-load-balancer-controller를 설치하고, 필요한 구성 요소와 옵션을 지정하여 AWS 리소스와 EKS 클러스터를 통합
 ### 이를 통해 로드 밸런서 컨트롤러를 사용하여 로드 밸런서와 관련된 기능을 EKS 클러스터에서 사용할 수 있음

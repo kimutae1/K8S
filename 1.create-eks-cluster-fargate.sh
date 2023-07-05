@@ -24,21 +24,13 @@ vpc:
          id: ${public_c}
 
 fargateProfiles:
-  - name: fp-kstadium-in
+  - name: fp-default
     selectors:
       - namespace: default
       - namespace: kube-system
     subnets:
       - ${private_a}
       - ${private_c}
-
-  - name: fp-kstadium-ex
-    selectors:
-      - namespace: default
-      - namespace: kube-system
-    subnets:
-      - ${public_a}
-      - ${public_c}
 
 iam:
   serviceRoleARN: $eks_role
