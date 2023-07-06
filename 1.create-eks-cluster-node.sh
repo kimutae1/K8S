@@ -15,7 +15,6 @@ iamIdentityMappings:
     username: system:node:{{EC2PrivateDNSName}}
     noDuplicateARNs: true # prevents shadowing of ARNs
 
-
   - arn: $sso_role
     groups:
       - system:masters

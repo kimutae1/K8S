@@ -8,6 +8,33 @@ metadata:
  name: ${cluster_name}
  region: ${region_code}
 
+iamIdentityMappings:
+  - arn: $eks_role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    # noDuplicateARNs: true # prevents shadowing of ARNs
+
+  - arn: $sso_role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:node-proxier
+      - system:nodes
+    username: system:node:{{SessionName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+  - arn: $devops_role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:node-proxier
+      - system:nodes
+    username: system:node:{{SessionName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
 vpc:
   id: ${VpcId}
   cidr: ${CidrBlock}
@@ -25,6 +52,7 @@ vpc:
 
 fargateProfiles:
   - name: fp-default
+    podExecutionRoleARN: $eks_role
     selectors:
       - namespace: default
       - namespace: kube-system
