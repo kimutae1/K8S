@@ -22,10 +22,18 @@ data:
        - system:masters
       username: system:node:{{SessionName}}
       rolearn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+      
+    - groups:
+       - system:bootstrappers
+       - system:nodes
+       - system:node-proxier
+       - system:masters
+      username: system:node:{{SessionName}}
+      rolearn: arn:aws:iam::911781391110:role/devops-role
 EOF
 
 kubectl apply -f configmap.yaml
 
-eksctl create iamidentitymapping --cluster ${cluster_name} --region=${region-code} \
-    --arn arn:aws:iam::911781391110:role/eksFullAccessRole --username admin --group master \
-    --no-duplicate-arns
+#eksctl create iamidentitymapping --cluster ${cluster_name} --region=${region-code} \
+#    --arn arn:aws:iam::911781391110:role/eksFullAccessRole --username admin --group masters \
+#    --no-duplicate-arns
