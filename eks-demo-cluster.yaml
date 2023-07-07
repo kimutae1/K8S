@@ -2,7 +2,7 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
- name: dev-reserved
+ name: dev-kstadium-managed
  region: ap-northeast-2
 
 iamIdentityMappings:
@@ -19,8 +19,9 @@ iamIdentityMappings:
     groups:
       - system:masters
       - system:bootstrappers
+      - system:node-proxier
       - system:nodes
-    username: system:node:{{EC2PrivateDNSName}}
+    username: system:node:{{SessionName}}
     noDuplicateARNs: true # prevents shadowing of ARNs
 
 
@@ -32,24 +33,26 @@ iamIdentityMappings:
     username: system:node:{{EC2PrivateDNSName}}
     noDuplicateARNs: true # prevents shadowing of ARNs
 
+
+
 iam:
   serviceRoleARN: arn:aws:iam::911781391110:role/eksFullAccessRole
   withOIDC: true
 
 vpc:
-  id: vpc-09a6049b96e74bf58
-  cidr: 10.10.0.0/16
+  id: vpc-03cc4687074f4e7d7
+  cidr: 10.11.0.0/16
   subnets:
     private:
       ap-northeast-2a:
-         id: subnet-0bc60172da6da0e5e
+         id: subnet-0f0036f4015024a5b
       ap-northeast-2c:
-         id: subnet-0d3309db6f0ad0260
+         id: subnet-078f130fd97bc382e
     public:
       ap-northeast-2a:
-         id: subnet-0515674ed4dc1772a
+         id: subnet-0f3b347b9cfba958c
       ap-northeast-2c:
-         id: subnet-0b89688a3a1ff4a93
+         id: subnet-053e60c49362851e0
 
 managedNodeGroups:
   - name: nodegroup # 클러스터의 노드 그룹명

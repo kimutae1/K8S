@@ -8,6 +8,33 @@ metadata:
  name: ${cluster_name}
  region: ${region_code}
 
+iamIdentityMappings:
+  - arn: $eks_role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    # noDuplicateARNs: true # prevents shadowing of ARNs
+
+  - arn: $sso_role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:node-proxier
+      - system:nodes
+    username: system:node:{{SessionName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+  - arn: $devops_role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:node-proxier
+      - system:nodes
+    username: system:node:{{SessionName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
 vpc:
   id: ${VpcId}
   cidr: ${CidrBlock}
@@ -24,7 +51,8 @@ vpc:
          id: ${public_c}
 
 fargateProfiles:
-  - name: fp-kstadium-in
+  - name: fp-default
+    podExecutionRoleARN: $eks_role
     selectors:
       - namespace: default
       - namespace: kube-system
@@ -32,16 +60,8 @@ fargateProfiles:
       - ${private_a}
       - ${private_c}
 
-  - name: fp-kstadium-ex
-    selectors:
-      - namespace: default
-      - namespace: kube-system
-    subnets:
-      - ${public_a}
-      - ${public_c}
-
 iam:
-  serviceRoleARN: $cluster_role
+  serviceRoleARN: $eks_role
 EOF
 
 cat eks-fargate.yaml
