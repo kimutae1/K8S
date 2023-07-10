@@ -2,11 +2,11 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
- name: dev-kstadium-gndchain
+ name: stg-kstadium-service
  region: ap-northeast-2
 
 iamIdentityMappings:
-  - arn: arn:aws:iam::911781391110:role/eksFullAccessRole
+  - arn: arn:aws:iam::779626203419:role/eksFullAccessRole
     groups:
       - system:masters
       - system:bootstrappers
@@ -14,8 +14,7 @@ iamIdentityMappings:
     username: system:node:{{EC2PrivateDNSName}}
     noDuplicateARNs: true # prevents shadowing of ARNs
 
-
-  - arn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+  - arn: arn:aws:iam::779626203419:role/AWSReservedSSO_crypted_devops_87b9897dbe314403
     groups:
       - system:masters
       - system:bootstrappers
@@ -27,23 +26,23 @@ iamIdentityMappings:
 
 
 iam:
-  serviceRoleARN: arn:aws:iam::911781391110:role/eksFullAccessRole
+  serviceRoleARN: arn:aws:iam::779626203419:role/eksFullAccessRole
   withOIDC: true
 
 vpc:
-  id: vpc-03cc4687074f4e7d7
-  cidr: 10.11.0.0/16
+  id: vpc-08d4a5081fd633ef8
+  cidr: 10.20.0.0/16
   subnets:
     private:
       ap-northeast-2a:
-         id: subnet-0f0036f4015024a5b
+         id: subnet-085c4de26b8ae878e
       ap-northeast-2c:
-         id: subnet-078f130fd97bc382e
+         id: subnet-08bd9d896cbd7c6ec
     public:
       ap-northeast-2a:
-         id: subnet-0f3b347b9cfba958c
+         id: subnet-084b476da5a149510
       ap-northeast-2c:
-         id: subnet-053e60c49362851e0
+         id: subnet-0c851bce700c448b1
 
 managedNodeGroups:
   - name: nodegroup # 클러스터의 노드 그룹명
@@ -60,7 +59,7 @@ managedNodeGroups:
       #    cloudWatch: true # cloudWatch에 대한 권한 추가
       #    autoScaler: true # auto scaling에 대한 권한 추가
       #    ebs: true # EBS CSI Driver에 대한 권한 추가
-      instanceRoleARN: arn:aws:iam::911781391110:role/eksFullAccessRole
+      instanceRoleARN: arn:aws:iam::779626203419:role/eksFullAccessRole
 
 cloudWatch:
   clusterLogging:
