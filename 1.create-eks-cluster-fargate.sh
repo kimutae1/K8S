@@ -9,12 +9,12 @@ metadata:
  region: ${region_code}
 
 iamIdentityMappings:
-  - arn: $eks_role
-    groups:
-      - system:masters
-      - system:bootstrappers
-      - system:nodes
-    username: system:node:{{EC2PrivateDNSName}}
+  # - arn: $eks_role
+  #   groups:
+  #     - system:masters
+  #     - system:bootstrappers
+  #     - system:nodes
+  #   username: system:node:{{EC2PrivateDNSName}}
     # noDuplicateARNs: true # prevents shadowing of ARNs
 
   - arn: $sso_role

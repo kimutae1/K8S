@@ -43,6 +43,6 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 ### AWS Fargate에서 애플리케이션을 실행하고 AWS 로드 밸런서 컨트롤러를 사용하는 설정을 구성하는 작업을 수행
 # eksctl create fargateprofile --cluster $cluster_name --region $region_code --name your-alb-sample-app --namespace game-2048
 
-sleep 60
+# sleep 60
 
-#kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
