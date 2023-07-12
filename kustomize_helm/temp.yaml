@@ -3013,8 +3013,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kubernetes.io/ingress.class: alb
   labels:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: my-argocd
@@ -3451,3 +3449,30 @@ spec:
             path: ca.crt
           optional: true
           secretName: argocd-repo-server-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    kubernetes.io/ingress.class: alb
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: my-argocd
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: argocd-server
+    app.kubernetes.io/part-of: argocd
+    helm.sh/chart: argo-cd-3.26.5
+  name: my-argocd-server
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: my-argocd-server
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
