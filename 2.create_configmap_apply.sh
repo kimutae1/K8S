@@ -26,6 +26,6 @@ EOF
 
 kubectl apply -f configmap.yaml
 
-eksctl create iamidentitymapping --cluster ${cluster_name} --region=${region-code} \
-    --arn arn:aws:iam::911781391110:role/eksFullAccessRole --username admin --group master \
-    --no-duplicate-arns
+#eksctl create iamidentitymapping --cluster ${cluster_name} --region=${region-code} \
+#    --arn arn:aws:iam::911781391110:role/eksFullAccessRole --username admin --group masters \
+#    --no-duplicate-arns

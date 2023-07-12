@@ -10,17 +10,19 @@ EOF
 
 cat << EOF > my-values.yaml 
 controller:
-  replicas: 2
+  replicas: 1
 server:
-  replicas: 2
-  ingress: enable
-   annotations:
-      kubernetes.io/ingress.class: nginx
+  replicas: 1
   service:
-    annotations: {}
+    ingress: enable
+    annotations:
+     kubernetes.io/ingress.class: alb
+    # kubernetes.io/ingress.class: nginx
+    # nginx.ingress.kubernetes.io/rewrite-target: /
     labels: {}
-    #type: ingress
-    #type: NodePort
+    ingressClassName: alb
+
+    type: NodePort
     #type: ClusterIP
     nodePortHttp: 30080
     nodePortHttps: 30443

@@ -1,1 +1,1 @@
-eksctl utils write-kubeconfig --cluster=kstadium-managed
+eksctl utils write-kubeconfig --cluster=lucas-test
