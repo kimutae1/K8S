@@ -3396,6 +3396,7 @@ spec:
         - info
         - --redis
         - my-argocd-redis:6379
+        - --insecure
         image: quay.io/argoproj/argocd:v2.1.6
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -3454,8 +3455,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig":
+      { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:911781391110:certificate/c4b1fa44-ad4b-404e-aa4d-6e6e2aa3f858
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
     alb.ingress.kubernetes.io/target-type: ip
+    external-dns.alpha.kubernetes.io/hostname: argo.dev.kstadium.io
     kubernetes.io/ingress.class: alb
   labels:
     app.kubernetes.io/component: server
@@ -3467,7 +3475,8 @@ metadata:
   name: my-argocd-server
 spec:
   rules:
-  - http:
+  - host: null
+    http:
       paths:
       - backend:
           service:
