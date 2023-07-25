@@ -1,13 +1,3 @@
-eksctl create iamserviceaccount \
-    --name external-dns \
-    --namespace external-dns \
-    --cluster $cluster_name \
-    --role-name $cluster_name-external-dns \
-    --attach-policy-arn=arn:aws:iam::911781391110:policy/AllowExternalDNSUpdates \
-    --override-existing-serviceaccounts \
-    --approve
-
-cat <<EOF > external-dns.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -81,6 +71,3 @@ spec:
         limits:
           memory: "256Mi" # Adjust the memory limit based on your requirements
           cpu: "0.25" # Adjust the CPU limit based on your requirements
-EOF
-
-kubectl apply -f external-dns.yaml
