@@ -11,6 +11,10 @@ EOF
 cat << EOF > my-values.yaml 
 controller:
   replicas: 1
+
+secret:
+  argocdServerAdminPassword: devops
+
 server:
   replicas: 1
   extraArgs: 
@@ -28,6 +32,8 @@ server:
      enabled: true
      annotations:
       kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/load-balancer-name: alb-${env}-${service_zone}-argo
+      alb.ingress.kubernetes.io/group.name: tg-${env}-${service_znoe}-argo
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/target-type: ip
 

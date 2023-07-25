@@ -1,5 +1,9 @@
 controller:
   replicas: 1
+
+secret:
+  argocdServerAdminPassword: devops
+
 server:
   replicas: 1
   extraArgs: 
@@ -17,9 +21,10 @@ server:
      enabled: true
      annotations:
       kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/load-balancer-name: alb-dev-kstadium-argo
+      alb.ingress.kubernetes.io/group.name: tg-dev--argo
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/target-type: ip
-      alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
 
 
       # SSL Settings
