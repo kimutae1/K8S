@@ -1,0 +1,76 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+ name: dev-kstadium-managed
+ region: ap-northeast-2
+
+###### fargate noderole = session name !!!!!!!!!!!!!!!
+iamIdentityMappings:
+  - arn: arn:aws:iam::911781391110:role/EKS-SA-Role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:node-proxier
+      - system:nodes
+    username: system:node:{{SessionName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+  - arn: arn:aws:iam::911781391110:role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:node-proxier
+      - system:nodes
+    username: system:node:{{SessionName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+  - arn: arn:aws:iam::911781391110:role/devops-role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:node-proxier
+      - system:nodes
+    username: system:node:{{SessionName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+vpc:
+  id: vpc-09a6049b96e74bf58
+  cidr: 10.10.0.0/16
+  subnets:
+    private:
+      ap-northeast-2a:
+         id: subnet-0bc60172da6da0e5e
+      ap-northeast-2c:
+         id: subnet-0d3309db6f0ad0260
+    public:
+      ap-northeast-2a:
+         id: subnet-0515674ed4dc1772a
+      ap-northeast-2c:
+         id: subnet-0b89688a3a1ff4a93
+
+fargateProfiles:
+  - name: fp-default
+    podExecutionRoleARN: arn:aws:iam::911781391110:role/EKS-Node-Role
+    selectors:
+      - namespace: default
+      - namespace: kube-system
+      - namespace: managed
+      - namespace: aws-observability
+    subnets:
+      - subnet-0bc60172da6da0e5e
+      - subnet-0d3309db6f0ad0260
+
+iam:
+  serviceRoleARN: arn:aws:iam::911781391110:role/EKS-Node-Role
+  fargatePodExecutionRoleARN: arn:aws:iam::911781391110:role/EKS-Node-Role
+  withOIDC: true
+  serviceAccounts:
+  - metadata:
+      name: eks-sa-role
+      namespace: kube-system
+    attachRoleARN: arn:aws:iam::911781391110:role/EKS-SA-Role
+
+addons:
+- name: vpc-cni
+  version: latest
+  serviceAccountRoleARN: arn:aws:iam::911781391110:role/EKS-Node-Role

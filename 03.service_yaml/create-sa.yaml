@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eks-node-role
+  namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::911781391110:role/EKS-Node-Role
+
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eks-node-role-default
+  namespace: default
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::911781391110:role/EKS-Node-Role
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eks-sa-role
+  namespace: default
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::911781391110:role/EKS-SA-Role

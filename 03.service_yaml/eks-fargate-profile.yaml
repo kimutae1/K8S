@@ -1,0 +1,16 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+ name: dev-kstadium-service
+ region: ap-northeast-2
+
+fargateProfiles:
+  - name: fp-default
+    podExecutionRoleARN: arn:aws:iam::911781391110:role/eksFullAccessRole
+    selectors:
+      - namespace: default
+      - namespace: kube-system
+      - namespace: managed
+    subnets:
+      - subnet-0bc60172da6da0e5e
+      - subnet-0d3309db6f0ad0260

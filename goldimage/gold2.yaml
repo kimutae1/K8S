@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goldimage2
+  labels:
+    app: goldimage2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goldimage2
+  template:
+    metadata:
+      labels:
+        app: goldimage2
+    spec:
+      serviceAccountName: eks-sa-role
+      containers:
+      - name: goldimage2
+        image: public.ecr.aws/j1t6w1m1/ekstools:latest

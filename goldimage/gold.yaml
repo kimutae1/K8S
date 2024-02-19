@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goldimage
+  labels:
+    app: goldimage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goldimage
+  template:
+    metadata:
+      labels:
+        app: goldimage
+    spec:
+      serviceAccountName: eks-sa-role
+      containers:
+      - name: goldimage
+        image: public.ecr.aws/j1t6w1m1/ekstools:latest
+        command: ["/bin/bash","-c", "--"]
+        args: [ "while true; do sleep 30; done;" ]

@@ -1,0 +1,12 @@
+serviceAccount:
+  create: false
+  name: eks-sa-role
+
+sources:
+  - service
+  - ingress
+
+policy: upsert-only
+registry: txt
+domainFilters: [dev.kstadium.io]
+provider: aws

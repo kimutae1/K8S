@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: x-ray-app-back-k8s
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: x-ray-app-back-k8s
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: x-ray-app-back-k8s
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 2
+  selector:
+    matchLabels:
+      app: x-ray-app-back-k8s
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: x-ray-app-back-k8s
+        tier: backend
+    spec:
+      containers:
+        - name: x-ray-app-back-k8s
+          image: 911781391110.dkr.ecr.ap-northeast-2.amazonaws.com/develop/app-backend:latest
+          securityContext:
+            privileged: false
+            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: 8080
