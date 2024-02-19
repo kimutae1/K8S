@@ -1,5 +1,0 @@
-# my-values.yaml
-controller:
-  replicas: 2
-server:
-  replicas: 2

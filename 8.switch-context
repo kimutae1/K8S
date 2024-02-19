@@ -1,1 +1,0 @@
-eksctl utils write-kubeconfig --cluster=lucas-test
