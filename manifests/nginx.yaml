@@ -1,0 +1,41 @@
+# Deployment
+...
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+...
+
+# Service
+...
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  selector:
+    app: nginx
+...
+
+#Ingress
+...
+spec:
+  rules:
+  - host: a.domain.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-service
+          servicePort: 80
+...

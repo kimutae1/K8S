@@ -1,0 +1,76 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+ name: stg-kstadium-service
+ region: ap-northeast-2
+
+iamIdentityMappings:
+  - arn: arn:aws:iam::779626203419:role/eksFullAccessRole
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+  - arn: arn:aws:iam::779626203419:role/AWSReservedSSO_crypted_devops_87b9897dbe314403
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:node-proxier
+      - system:nodes
+    username: system:node:{{SessionName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+
+  - arn: arn:aws:iam::911781391110:role/devops-role
+    groups:
+      - system:masters
+      - system:bootstrappers
+      - system:nodes
+    username: system:node:{{EC2PrivateDNSName}}
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+
+
+iam:
+  serviceRoleARN: arn:aws:iam::779626203419:role/eksFullAccessRole
+  withOIDC: true
+
+vpc:
+  id: vpc-08d4a5081fd633ef8
+  cidr: 10.20.0.0/16
+  subnets:
+    private:
+      ap-northeast-2a:
+         id: subnet-085c4de26b8ae878e
+      ap-northeast-2c:
+         id: subnet-08bd9d896cbd7c6ec
+    public:
+      ap-northeast-2a:
+         id: subnet-084b476da5a149510
+      ap-northeast-2c:
+         id: subnet-0c851bce700c448b1
+
+managedNodeGroups:
+  - name: nodegroup # 클러스터의 노드 그룹명
+    instanceType: m5.large # 클러스터 워커 노드의 인스턴스 타입
+    desiredCapacity: 2 # 클러스터 워커 노드의 갯수
+    volumeSize: 30  # 클러스터 워커 노드의 EBS 용량 (단위: GiB)
+    privateNetworking: true
+    ssh:
+      enableSsm: true
+    iam:
+      #  withAddonPolicies:
+      #    imageBuilder: true # Amazon ECR에 대한 권한 추가
+      #    albIngress: true  # albIngress에 대한 권한 추가
+      #    cloudWatch: true # cloudWatch에 대한 권한 추가
+      #    autoScaler: true # auto scaling에 대한 권한 추가
+      #    ebs: true # EBS CSI Driver에 대한 권한 추가
+      instanceRoleARN: arn:aws:iam::779626203419:role/eksFullAccessRole
+
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["*"]
+

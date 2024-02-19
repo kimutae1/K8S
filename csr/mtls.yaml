@@ -1,0 +1,34 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: mtls-app
+  labels:
+    app: mtls
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mtls
+  template:
+    metadata:
+      labels:
+        app: mtls
+    spec:
+      containers:
+      - name: mtls-app
+        image: hashicorp/http-echo
+        args:
+          - "-text=mTLS is working"
+
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: mtls-service
+spec:
+  selector:
+    app: mtls
+  ports:
+    - port: 5678 # Default port for image

@@ -1,0 +1,180 @@
+{
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+        "annotations": {
+            "CapacityProvisioned": "0.25vCPU 0.5GB",
+            "Logging": "LoggingDisabled: LOGGING_CONFIGMAP_NOT_FOUND",
+            "kubernetes.io/psp": "eks.privileged"
+        },
+        "creationTimestamp": "2023-05-31T05:45:16Z",
+        "generateName": "ecsdemo-nodejs-5b7b6f7487-",
+        "labels": {
+            "app": "ecsdemo-nodejs",
+            "eks.amazonaws.com/fargate-profile": "fp-default",
+            "pod-template-hash": "5b7b6f7487"
+        },
+        "name": "ecsdemo-nodejs-5b7b6f7487-4mkpl",
+        "namespace": "default",
+        "ownerReferences": [
+            {
+                "apiVersion": "apps/v1",
+                "blockOwnerDeletion": true,
+                "controller": true,
+                "kind": "ReplicaSet",
+                "name": "ecsdemo-nodejs-5b7b6f7487",
+                "uid": "e501232d-295d-4e40-bbf9-8a8db2be9e2a"
+            }
+        ],
+        "resourceVersion": "12672705",
+        "uid": "742bd195-3c7d-4298-88ca-5322998e3a21"
+    },
+    "spec": {
+        "containers": [
+            {
+                "image": "brentley/ecsdemo-nodejs:latest",
+                "imagePullPolicy": "Always",
+                "name": "ecsdemo-nodejs",
+                "ports": [
+                    {
+                        "containerPort": 3000,
+                        "protocol": "TCP"
+                    }
+                ],
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-684jc",
+                        "readOnly": true
+                    }
+                ]
+            }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "fargate-ip-10-10-16-133.ap-northeast-2.compute.internal",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 2000001000,
+        "priorityClassName": "system-node-critical",
+        "restartPolicy": "Always",
+        "schedulerName": "fargate-scheduler",
+        "securityContext": {},
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/not-ready",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            },
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/unreachable",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            }
+        ],
+        "volumes": [
+            {
+                "name": "kube-api-access-684jc",
+                "projected": {
+                    "defaultMode": 420,
+                    "sources": [
+                        {
+                            "serviceAccountToken": {
+                                "expirationSeconds": 3607,
+                                "path": "token"
+                            }
+                        },
+                        {
+                            "configMap": {
+                                "items": [
+                                    {
+                                        "key": "ca.crt",
+                                        "path": "ca.crt"
+                                    }
+                                ],
+                                "name": "kube-root-ca.crt"
+                            }
+                        },
+                        {
+                            "downwardAPI": {
+                                "items": [
+                                    {
+                                        "fieldRef": {
+                                            "apiVersion": "v1",
+                                            "fieldPath": "metadata.namespace"
+                                        },
+                                        "path": "namespace"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2023-05-31T05:45:55Z",
+                "status": "True",
+                "type": "Initialized"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2023-05-31T05:46:05Z",
+                "status": "True",
+                "type": "Ready"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2023-05-31T05:46:05Z",
+                "status": "True",
+                "type": "ContainersReady"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2023-05-31T05:45:55Z",
+                "status": "True",
+                "type": "PodScheduled"
+            }
+        ],
+        "containerStatuses": [
+            {
+                "containerID": "containerd://b9d099eecceab00b0064bf8ee27ddd8c611a5311f7299197e68ed152354add76",
+                "image": "docker.io/brentley/ecsdemo-nodejs:latest",
+                "imageID": "docker.io/brentley/ecsdemo-nodejs@sha256:80169aea9f003c4425d34b0d079882f577feefcd044b955bd2a80ae316778dd9",
+                "lastState": {},
+                "name": "ecsdemo-nodejs",
+                "ready": true,
+                "restartCount": 0,
+                "started": true,
+                "state": {
+                    "running": {
+                        "startedAt": "2023-05-31T05:46:05Z"
+                    }
+                }
+            }
+        ],
+        "hostIP": "10.10.16.133",
+        "phase": "Running",
+        "podIP": "10.10.16.133",
+        "podIPs": [
+            {
+                "ip": "10.10.16.133"
+            }
+        ],
+        "qosClass": "BestEffort",
+        "startTime": "2023-05-31T05:45:55Z"
+    }
+}
+
+echo  "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkVENDQVJ1Z0F3SUJBZ0lRVEhPbE1rbGhCbVNya3ZjaTMxM3c3VEFLQmdncWhrak9QUVFEQWpBUE1RMHcKQ3dZRFZRUUtFd1J1YVd3eE1DQVhEVEl6TURZeE5qRXdNREF4TWxvWUR6SXhNak13TlRJek1UQXdNREV5V2pBUApNUTB3Q3dZRFZRUUtFd1J1YVd3eE1Ga3dFd1lIS29aSXpqMENBUVlJS29aSXpqMERBUWNEUWdBRTJZWGh4aDlvCjVUbXNwcjEwNlY4bEdEczQ5cVh1Nk1lRHFNTnpjTmdEMHpnVm9DYTJOZWl3ck1IbjVZbWg3anVpTnJ3dlpRaGIKczhlRVgvS1JKNWFNcHFOWE1GVXdEZ1lEVlIwUEFRSC9CQVFEQWdJRU1CTUdBMVVkSlFRTU1Bb0dDQ3NHQVFVRgpCd01CTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkFERytvMjZFVEZFZHNTa2loeDc3aktFCnlmZkNNQW9HQ0NxR1NNNDlCQU1DQTBnQU1FVUNJSGFDR1o3YWlDU25RdEJRZ2pkbGt0cFNvWTJWdk5wWHBqWFcKamZKRzYwQnpBaUVBNkRES2NOaHErTUgxQmRmZE5qTmgwK01WOXgrZmdsVnBoM1RWSWU1Ni9ndz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=" |base64 --decode | 

@@ -1,0 +1,23 @@
+aws sso get-role-credentials --account-id 123456789012 --role-name <permission-set-name> --access-token eyJlbmMiOiJBM…. --region <enter_the_same_sso_region_same_in_the_JSON_file>
+
+{"startUrl": "https://d-9067ad67f7.awsapps.com/start#/", "region": "us-east-1", "accessToken": "aoa0l6jQx8jh5_Mjr5OF8rhsKi1t4ympYGnHs139q8cXS7WlUbv0wFBZoUBRTr7C8u3UZtP-HIk7Y0Ve1nOSCPzCgAkc0:MGUCMAVkdzUkzH9yHIllQQAUiP6g/vL5zT1ZkFP1KTIQLMVpG+9A3hFBHUXIyFOXO4mkJwIxAIM8zodTGZG3SMw0moQ3qPw2FjLv4d6YAnX4sZFJRIxkRV/kiAfJm3BBNRrbb6BJsA", "expiresAt": "2023-03-16T10:08:30Z"}% 
+
+
+"Arn": "arn:aws:sts::911781391110:assumed-role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e/dorian.kim@crypted.co.kr"
+
+
+IAM 역할은 경로 없이 매핑되어야 합니다. rolearn 경로 요구 사항에 대해 자세히 알아보려면
+ IAM 문제 해결에서 aws-auth ConfigMap은 클러스터에 대한 액세스 권한을 부여하지 않습니다. 
+ 섹션을 확장합니다.
+
+AWS IAM Identity Center(AWS Single Sign-On 후속) IAM 역할에 대해 rolearn을 지정하려면 
+역할 ARN에서 '/aws-reserved/sso.amazonaws.com/REGION' 경로를 제거합니다. 그렇지 않으면 ConfigMap의 항목이 사용자를 유효한 사용자로 권한 부여할 수 없습니다.
+system:masters 그룹은 슈퍼 사용자 액세스를 통해 모든 리소스에 대한 모든 작업을 수행할 수 있습니다. 자세한 내용은 기본 역할 및 역할 바인딩을 참조하세요. 이 사용자에 대한 액세스를 제한하려면 Amazon EKS 역할 및 역할 바인딩 리소스를 생성할 수 있습니다. Amazon EKS 콘솔에서 리소스를 보는 사용자의 액세스 권한을 제한하는 예의 경우, 필수 권한의 2단계 및 3단계를 수행하세요.
+3.    다음 명령을 실행하여 kubeconfig 파일
+
+mapRoles: |
+  - rolearn: arn:aws:sts::911781391110:assumed-role/AWSReservedSSO_crypted_devops_1c74128b3bb9822e/dorian.kim@crypted.co.kr"
+
+    username: testrole
+    groups:
+      - system:masters
